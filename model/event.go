@@ -3,10 +3,11 @@ package model
 import "time"
 
 type Event struct {
-	TimeStamp     time.Time
+	AdultID       int
+	TimeStamp     string
 	Type          string
 	Description   string
-	StartTime     time.Time
-	EndTime       time.Time
+	StartTime     string
+	EndTime       string
 	EventDuration time.Duration
 }
