@@ -1,6 +1,6 @@
 package model
 
-type Adult struct {
+type Person struct {
 	ID   int
 	Name string
 }
