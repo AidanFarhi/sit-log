@@ -1,6 +1,10 @@
 package model
 
-import "time"
+type AdultChildRelation struct {
+	AdultID  int
+	ChildID  int
+	Relation string
+}
 
 type Event struct {
 	ID            int
@@ -11,5 +15,10 @@ type Event struct {
 	Description   string
 	StartTime     string
 	EndTime       string
-	EventDuration time.Duration
+	EventDuration string
+}
+
+type Person struct {
+	ID   int
+	Name string
 }
