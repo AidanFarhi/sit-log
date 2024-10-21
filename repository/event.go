@@ -9,7 +9,7 @@ import (
 
 type EventRepository interface {
 	GetEvent(ID int) (model.Event, error)
-	GetEventsForChildID(childID int) ([]model.Event, error)
+	GetEventsForAdult(adultID int) ([]model.Event, error)
 	CreateEvent(event model.Event) error
 }
 
@@ -53,7 +53,7 @@ func (ser SQLiteEventRepository) GetEvent(ID int) (model.Event, error) {
 	return event, nil
 }
 
-func (ser SQLiteEventRepository) GetEventsForChildID(childID int) ([]model.Event, error) {
+func (ser SQLiteEventRepository) GetEventsForAdult(adultID int) ([]model.Event, error) {
 	events := []model.Event{}
 	query := `
 		SELECT
@@ -69,9 +69,9 @@ func (ser SQLiteEventRepository) GetEventsForChildID(childID int) ([]model.Event
 		FROM
 			event
 		WHERE
-			child_id = ?
+			adult_id = ?
 	`
-	rows, err := ser.DB.Query(query, childID)
+	rows, err := ser.DB.Query(query, adultID)
 	defer rows.Close()
 	if err != nil {
 		return events, err
