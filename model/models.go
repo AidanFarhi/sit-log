@@ -1,9 +1,16 @@
 package model
 
-type AdultChildRelation struct {
-	AdultID  int
-	ChildID  int
-	Relation string
+type Adult struct {
+	ID       int
+	Name     string
+	Email    string
+	Password string
+}
+
+type Child struct {
+	ID       int
+	ParentID int
+	Name     string
 }
 
 type Event struct {
@@ -16,9 +23,4 @@ type Event struct {
 	StartTime     string
 	EndTime       string
 	EventDuration string
-}
-
-type Person struct {
-	ID   int
-	Name string
 }

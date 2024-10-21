@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
+	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/repository"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -35,10 +37,51 @@ func main() {
 		DB: db,
 	}
 
-	// run a test query
-	event, err := repo.GetEvent(1)
-	if err != nil {
-		fmt.Println(err)
+	// Define some initial parameters
+	eventTypes := []string{"Babysitting", "Diaper Change", "Snack", "Playdate", "Daycare"}
+	descriptions := []string{
+		"Watched the child for a while.",
+		"Changed the child's diaper.",
+		"Gave the child a snack.",
+		"Playdate with friends.",
+		"Full day daycare service.",
 	}
-	fmt.Println(event)
+	numEvents := 10 // Number of events to generate
+
+	// Slice to store the generated events
+	var eventsToInsert []model.Event
+
+	for i := 1; i <= numEvents; i++ {
+		// Generate random data for each event (simple example)
+		eventTypeIndex := i % len(eventTypes)
+		adID := (i % 3) + 1    // Cycle through adult IDs (1-3)
+		childID := (i % 4) + 1 // Cycle through child IDs (1-4)
+		startTime := time.Now().Add(time.Duration(i) * time.Hour).Format("2006-01-02 15:04")
+		endTime := time.Now().Add(time.Duration(i+1) * time.Hour).Format("2006-01-02 17:04")
+		eventDuration := fmt.Sprintf("%d hours", i)
+
+		event := model.Event{
+			ID:            0,
+			AdultID:       adID,
+			ChildID:       childID,
+			TimeStamp:     "",
+			Type:          eventTypes[eventTypeIndex],
+			Description:   descriptions[eventTypeIndex],
+			StartTime:     startTime,
+			EndTime:       endTime,
+			EventDuration: eventDuration,
+		}
+
+		// Append the event to the slice
+		eventsToInsert = append(eventsToInsert, event)
+	}
+
+	for _, e := range eventsToInsert {
+		repo.CreateEvent(e)
+	}
+
+	eventsFromDb, _ := repo.GetEventsForChildID(2)
+	for _, e := range eventsFromDb {
+		fmt.Println(e)
+	}
 }
