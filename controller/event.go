@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,7 +18,9 @@ func NewEventController(s service.EventService) EventController {
 }
 
 func (ec EventController) GetEventsForAdult(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("query params", r.URL.Query())
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	fmt.Println(id)
 	if err != nil {
 		http.Error(w, "Invalid Adult ID", http.StatusBadRequest)
 		return
@@ -33,5 +36,6 @@ func (ec EventController) GetEventsForAdult(w http.ResponseWriter, r *http.Reque
 		listItems.WriteString("<li>" + e.Type + " | " + e.Description + "</li>")
 	}
 	listItems.WriteString("</ul>")
+	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(listItems.String()))
 }
