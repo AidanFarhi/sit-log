@@ -1,6 +1,15 @@
-CREATE TABLE person (
+CREATE TABLE adult (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE child (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    parent_id INTEGER,
+    name TEXT NOT NULL,
+    FOREIGN KEY (parent_id) REFERENCES adult(id)
 );
 
 CREATE TABLE event (
@@ -13,5 +22,6 @@ CREATE TABLE event (
     start_time TEXT,
     end_time TEXT,
     duration TEXT,
-    FOREIGN KEY (adult_id) REFERENCES person(adult_id)
+    FOREIGN KEY (adult_id) REFERENCES adult(id),
+    FOREIGN KEY (child_id) REFERENCES child(id)
 );
