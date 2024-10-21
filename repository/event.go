@@ -17,6 +17,10 @@ type SQLiteEventRepository struct {
 	DB *sql.DB
 }
 
+func NewSQLiteEventRepository(db *sql.DB) SQLiteEventRepository {
+	return SQLiteEventRepository{DB: db}
+}
+
 func (ser SQLiteEventRepository) GetEvent(ID int) (model.Event, error) {
 	event := model.Event{}
 	query := `
