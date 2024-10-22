@@ -24,7 +24,7 @@ func main() {
 	controller := controller.NewEventController(service)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/v1/events/{id}", controller.GetEventsForAdult)
+	mux.HandleFunc("GET /api/v1/events", controller.GetEventsForAdult)
 
 	server := http.Server{
 		Addr:    ":8080",
