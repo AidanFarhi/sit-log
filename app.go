@@ -19,12 +19,14 @@ func main() {
 	}
 	defer db.Close()
 
-	repo := repository.NewSQLiteEventRepository(db)
+	repo := repository.NewSimpleEventRepository(db)
 	service := service.NewSimpleEventService(repo)
 	controller := controller.NewEventController(service)
 
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("GET /api/v1/events/adult/{id}", controller.GetEventsForAdult)
+	mux.HandleFunc("GET /api/v1/events/child/{id}", controller.GetEventsForChild)
 
 	server := http.Server{
 		Addr:    ":8080",

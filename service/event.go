@@ -8,6 +8,7 @@ import (
 type EventService interface {
 	GetEvent(ID int) (model.Event, error)
 	GetEventsForAdult(adultID int) ([]model.Event, error)
+	GetEventsForChild(childID int) ([]model.Event, error)
 	CreateEvent(event model.Event) error
 }
 
@@ -31,6 +32,15 @@ func (ses SimpleEventService) GetEvent(ID int) (model.Event, error) {
 func (ses SimpleEventService) GetEventsForAdult(adultID int) ([]model.Event, error) {
 	var events []model.Event
 	events, err := ses.Repository.GetEventsForAdult(adultID)
+	if err != nil {
+		return events, err
+	}
+	return events, err
+}
+
+func (ses SimpleEventService) GetEventsForChild(childID int) ([]model.Event, error) {
+	var events []model.Event
+	events, err := ses.Repository.GetEventsForAdult(childID)
 	if err != nil {
 		return events, err
 	}
