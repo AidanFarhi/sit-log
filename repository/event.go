@@ -4,7 +4,6 @@ import (
 	"database/sql"
 
 	"github.com/AidanFarhi/sitlog/model"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 type EventRepository interface {
