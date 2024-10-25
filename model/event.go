@@ -8,3 +8,12 @@ type Event struct {
 	EndTime     string
 	Duration    string
 }
+
+type NewEvent struct {
+	ChildID     int
+	Type        string
+	Description string
+	StartTime   string
+	EndTime     string
+	Duration    string
+}

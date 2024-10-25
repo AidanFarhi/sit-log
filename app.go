@@ -19,13 +19,14 @@ func main() {
 	}
 	defer db.Close()
 
-	repo := repository.NewSimpleRepository(db)
-	service := service.NewSimpleEventService(repo)
-	controller := controller.NewEventController(service)
+	eventRepo := repository.NewSimpleEventRepository(db)
+	eventService := service.NewSimpleEventService(eventRepo)
+	eventController := controller.NewEventController(eventService)
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /api/v1/events/{childId}/{adultId}", controller.GetEventsForChild)
+	mux.HandleFunc("GET /api/v1/events/{childId}/{adultId}", eventController.GetEventsForChild)
+	mux.HandleFunc("POST /api/v1/events/create", eventController.CreateEvent)
 
 	server := http.Server{
 		Addr:    ":8080",

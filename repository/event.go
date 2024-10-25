@@ -6,19 +6,20 @@ import (
 	"github.com/AidanFarhi/sitlog/model"
 )
 
-type Repository interface {
+type EventRepository interface {
 	GetEventsForChild(childID int, adultID int) ([]model.Event, error)
+	CreateEvent(newEvent model.NewEvent) error
 }
 
-type SimpleRepository struct {
+type SimpleEventRepository struct {
 	DB *sql.DB
 }
 
-func NewSimpleRepository(db *sql.DB) SimpleRepository {
-	return SimpleRepository{DB: db}
+func NewSimpleEventRepository(db *sql.DB) SimpleEventRepository {
+	return SimpleEventRepository{DB: db}
 }
 
-func (sr SimpleRepository) GetEventsForChild(childID int, adultID int) ([]model.Event, error) {
+func (sr SimpleEventRepository) GetEventsForChild(childID int, adultID int) ([]model.Event, error) {
 	events := []model.Event{}
 	query := `
 		SELECT
@@ -59,4 +60,24 @@ func (sr SimpleRepository) GetEventsForChild(childID int, adultID int) ([]model.
 		events = append(events, event)
 	}
 	return events, nil
+}
+
+func (ser SimpleEventRepository) CreateEvent(newEvent model.NewEvent) error {
+	query := `
+		INSERT INTO event(child_id, type, description, start_time, end_time, duration)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`
+	_, err := ser.DB.Exec(
+		query,
+		newEvent.ChildID,
+		newEvent.Type,
+		newEvent.Description,
+		newEvent.StartTime,
+		newEvent.EndTime,
+		newEvent.Duration,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }

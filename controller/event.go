@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 
+	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/service"
 )
 
@@ -24,7 +24,6 @@ func (ec EventController) GetEventsForChild(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	adultID, err := strconv.Atoi(r.PathValue("adultId"))
-	fmt.Println("childID:", childID, "adultID:", adultID)
 	if err != nil {
 		http.Error(w, "Invalid Adult ID", http.StatusBadRequest)
 		return
@@ -42,4 +41,31 @@ func (ec EventController) GetEventsForChild(w http.ResponseWriter, r *http.Reque
 	listItems.WriteString("</ul>")
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(listItems.String()))
+}
+
+func (ec EventController) CreateEvent(w http.ResponseWriter, r *http.Request) {
+	newEvent := model.NewEvent{}
+	childId, err := strconv.Atoi(r.Form.Get("childId"))
+	if err != nil {
+		http.Error(w, "invalid childId", http.StatusInternalServerError)
+	}
+	newEvent.ChildID = childId
+	newEvent.Type = r.Form.Get("eventType")
+	newEvent.Description = r.Form.Get("description")
+	newEvent.StartTime = r.Form.Get("startTime")
+	newEvent.EndTime = r.Form.Get("endTime")
+	switch {
+	case newEvent.Type == "":
+		http.Error(w, "event type cannot be empty", http.StatusInternalServerError)
+	case newEvent.StartTime == "":
+		http.Error(w, "start time cannot be empty", http.StatusInternalServerError)
+	case newEvent.EndTime == "":
+		http.Error(w, "end time cannot be empty", http.StatusInternalServerError)
+	}
+	err = ec.Service.CreateEvent(newEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte("created event"))
 }
