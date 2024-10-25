@@ -45,9 +45,15 @@ func (ec EventController) GetEventsForChild(w http.ResponseWriter, r *http.Reque
 
 func (ec EventController) CreateEvent(w http.ResponseWriter, r *http.Request) {
 	newEvent := model.NewEvent{}
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "error parsing form", http.StatusInternalServerError)
+		return
+	}
 	childId, err := strconv.Atoi(r.Form.Get("childId"))
 	if err != nil {
 		http.Error(w, "invalid childId", http.StatusInternalServerError)
+		return
 	}
 	newEvent.ChildID = childId
 	newEvent.Type = r.Form.Get("eventType")
@@ -57,14 +63,18 @@ func (ec EventController) CreateEvent(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case newEvent.Type == "":
 		http.Error(w, "event type cannot be empty", http.StatusInternalServerError)
+		return
 	case newEvent.StartTime == "":
 		http.Error(w, "start time cannot be empty", http.StatusInternalServerError)
+		return
 	case newEvent.EndTime == "":
 		http.Error(w, "end time cannot be empty", http.StatusInternalServerError)
+		return
 	}
 	err = ec.Service.CreateEvent(newEvent)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte("created event"))
