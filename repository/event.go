@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/AidanFarhi/sitlog/model"
 )
@@ -63,11 +64,13 @@ func (sr SimpleEventRepository) GetEventsForChild(childID int, adultID int) ([]m
 }
 
 func (ser SimpleEventRepository) CreateEvent(newEvent model.NewEvent) error {
+	_, err := ser.DB.Exec("PRAGMA foreign_keys = ON;")
 	query := `
 		INSERT INTO event(child_id, type, description, start_time, end_time, duration)
 		VALUES (?, ?, ?, ?, ?, ?)
 	`
-	_, err := ser.DB.Exec(
+	fmt.Println("inserting:", newEvent)
+	_, err = ser.DB.Exec(
 		query,
 		newEvent.ChildID,
 		newEvent.Type,
@@ -77,6 +80,7 @@ func (ser SimpleEventRepository) CreateEvent(newEvent model.NewEvent) error {
 		newEvent.Duration,
 	)
 	if err != nil {
+		fmt.Println("error inserting new event:", err.Error())
 		return err
 	}
 	return nil

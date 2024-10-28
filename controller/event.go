@@ -77,5 +77,5 @@ func (ec EventController) CreateEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte("created event"))
+	w.Write([]byte("<p>created event</p>"))
 }

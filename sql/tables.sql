@@ -12,8 +12,7 @@ CREATE TABLE adult (
 
 CREATE TABLE child (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    birthday TEXT NOT NULL
+    name TEXT NOT NULL
 );
 
 CREATE TABLE adult_child_relation (

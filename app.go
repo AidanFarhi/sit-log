@@ -18,6 +18,9 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	eventRepo := repository.NewSimpleEventRepository(db)
 	eventService := service.NewSimpleEventService(eventRepo)
