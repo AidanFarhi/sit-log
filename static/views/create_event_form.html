@@ -1,0 +1,17 @@
+{{ block "create_event_form" . }}
+<p>Create Event</p>
+<form style="display: flex; flex-direction: column; align-items: center;">
+    <p>Child ID</p>
+    <input type="text" name="childId">
+    <p>Type</p>
+    <input type="text" name="type">
+    <p>Description</p>
+    <input type="text" name="description">
+    <p>Start Time</p>
+    <input type="text" name="startTime">
+    <p>End Time</p>
+    <input type="text" name="endTime">
+    <br>
+    <button type="submit">Create Event</button>
+</form>
+{{ end }}
