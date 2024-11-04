@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <link rel="stylesheet" href="static/css/index.css">
     <title>Sit Log</title>
 </head>
 <body>
+    {{ template "header" . }}
     {{ template "create_event_form" . }}
+    {{ template "event_list" . }}
 </body>
 </html>
 {{ end }}
