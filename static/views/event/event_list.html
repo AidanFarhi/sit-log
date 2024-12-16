@@ -1,10 +1,50 @@
 {{ block "event_list" . }}
-<ul>
-    <li>yolo</li>
-    <li>yolo</li>
-    <li>yolo</li>
-    <li>yolo</li>
-    <li>yolo</li>
-    <li>yolo</li>
-</ul>
+<table id="event-table">
+    <thead>
+        <tr>
+            <th>event</th>
+            <th>description</th>
+            <th>start time</th>
+            <th>end time</th>
+            <th>duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Meeting</td>
+            <td>Weekly team sync-up</td>
+            <td>2024-12-16 10:00 AM</td>
+            <td>2024-12-16 11:00 AM</td>
+            <td>1 hour</td>
+        </tr>
+        <tr>
+            <td>Workshop</td>
+            <td>Introduction to Golang</td>
+            <td>2024-12-16 01:00 PM</td>
+            <td>2024-12-16 03:30 PM</td>
+            <td>2 hours 30 minutes</td>
+        </tr>
+        <tr>
+            <td>Webinar</td>
+            <td>Latest trends in AI</td>
+            <td>2024-12-17 09:00 AM</td>
+            <td>2024-12-17 10:15 AM</td>
+            <td>1 hour 15 minutes</td>
+        </tr>
+        <tr>
+            <td>Lunch</td>
+            <td>Team lunch at the cafe</td>
+            <td>2024-12-17 12:30 PM</td>
+            <td>2024-12-17 01:30 PM</td>
+            <td>1 hour</td>
+        </tr>
+        <tr>
+            <td>Project Demo</td>
+            <td>Presentation of the final prototype</td>
+            <td>2024-12-18 02:00 PM</td>
+            <td>2024-12-18 03:15 PM</td>
+            <td>1 hour 15 minutes</td>
+        </tr>
+    </tbody>
+</table>
 {{ end }}
