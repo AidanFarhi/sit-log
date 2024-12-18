@@ -9,10 +9,15 @@ import (
 	"path/filepath"
 
 	"github.com/AidanFarhi/sitlog/controller"
+	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/repository"
 	"github.com/AidanFarhi/sitlog/service"
 	_ "github.com/mattn/go-sqlite3"
 )
+
+type EventPageData struct {
+	Events []model.Event
+}
 
 type Templates struct {
 	Templates *template.Template
@@ -58,13 +63,21 @@ func main() {
 	eventService := service.NewSimpleEventService(eventRepo)
 	eventController := controller.NewEventController(eventService)
 
+	eventPageData := EventPageData{}
+
 	mux := http.NewServeMux()
 
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
 		if r.Method == http.MethodGet {
-			templates.Templates.ExecuteTemplate(w, "index", nil)
+			events, _ := eventService.GetEventsForChild(2, 2)
+			eventPageData.Events = events
+			err := templates.Templates.ExecuteTemplate(w, "index", eventPageData)
+			if err != nil {
+				log.Printf("Error executing template: %v", err)
+			}
 		} else {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
