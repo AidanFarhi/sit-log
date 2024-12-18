@@ -1,5 +1,34 @@
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #009879;
+    color: #ffffff;
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    z-index: 1000;
+    border-bottom: 2px solid #009879;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#site-name {
+    margin-left: 15px;
+    font-size: 1.0em; /* Adjust size as needed */
+    font-weight: bold;
+}
+
+#logo {
+    margin-left: 15px;
+}
+
+#profile-icon{
+    margin-right: 15px; /* Adds spacing around icons */
+}
+
+body {
+    padding-top: 60px; /* Pushes content down to avoid overlap with fixed header */
 }

@@ -1,50 +1,335 @@
 {{ block "event_list" . }}
-<table id="event-table">
-    <thead>
-        <tr>
-            <th>event</th>
-            <th>description</th>
-            <th>start time</th>
-            <th>end time</th>
-            <th>duration</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Meeting</td>
-            <td>Weekly team sync-up</td>
-            <td>2024-12-16 10:00 AM</td>
-            <td>2024-12-16 11:00 AM</td>
-            <td>1 hour</td>
-        </tr>
-        <tr>
-            <td>Workshop</td>
-            <td>Introduction to Golang</td>
-            <td>2024-12-16 01:00 PM</td>
-            <td>2024-12-16 03:30 PM</td>
-            <td>2 hours 30 minutes</td>
-        </tr>
-        <tr>
-            <td>Webinar</td>
-            <td>Latest trends in AI</td>
-            <td>2024-12-17 09:00 AM</td>
-            <td>2024-12-17 10:15 AM</td>
-            <td>1 hour 15 minutes</td>
-        </tr>
-        <tr>
-            <td>Lunch</td>
-            <td>Team lunch at the cafe</td>
-            <td>2024-12-17 12:30 PM</td>
-            <td>2024-12-17 01:30 PM</td>
-            <td>1 hour</td>
-        </tr>
-        <tr>
-            <td>Project Demo</td>
-            <td>Presentation of the final prototype</td>
-            <td>2024-12-18 02:00 PM</td>
-            <td>2024-12-18 03:15 PM</td>
-            <td>1 hour 15 minutes</td>
-        </tr>
-    </tbody>
-</table>
+<div id="table-container">
+    <div id="search-add-bar">
+        <input type="text" id="search-bar" placeholder="Search...">
+        <button id="add-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
+                <circle cx="12" cy="12" r="10" fill="#009879" />
+                <path d="M12 7v10m5-5H7" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+    <table id="event-table">
+        <thead>
+            <tr>
+                <th>event</th>
+                <th>description</th>
+                <th>start time</th>
+                <th>end time</th>
+                <th>duration</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Meeting</td>
+                <td>Weekly team sync-up</td>
+                <td>2024-12-16 10:00 AM</td>
+                <td>2024-12-16 11:00 AM</td>
+                <td>1 hour</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Workshop</td>
+                <td>Introduction to Golang</td>
+                <td>2024-12-16 01:00 PM</td>
+                <td>2024-12-16 03:30 PM</td>
+                <td>2 hours 30 minutes</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {{ end }}
