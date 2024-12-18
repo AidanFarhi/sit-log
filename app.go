@@ -9,15 +9,10 @@ import (
 	"path/filepath"
 
 	"github.com/AidanFarhi/sitlog/controller"
-	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/repository"
 	"github.com/AidanFarhi/sitlog/service"
 	_ "github.com/mattn/go-sqlite3"
 )
-
-type EventPageData struct {
-	Events []model.Event
-}
 
 type Templates struct {
 	Templates *template.Template
@@ -63,8 +58,6 @@ func main() {
 	eventService := service.NewSimpleEventService(eventRepo)
 	eventController := controller.NewEventController(eventService)
 
-	eventPageData := EventPageData{}
-
 	mux := http.NewServeMux()
 
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
@@ -73,8 +66,7 @@ func main() {
 
 		if r.Method == http.MethodGet {
 			events, _ := eventService.GetEventsForChild(2, 2)
-			eventPageData.Events = events
-			err := templates.Templates.ExecuteTemplate(w, "index", eventPageData)
+			err := templates.Templates.ExecuteTemplate(w, "index", events)
 			if err != nil {
 				log.Printf("Error executing template: %v", err)
 			}
