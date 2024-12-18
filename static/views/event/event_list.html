@@ -12,6 +12,7 @@
     <table id="event-table">
         <thead>
             <tr>
+                <th>timestamp</th>
                 <th>event</th>
                 <th>description</th>
                 <th>start time</th>
@@ -23,6 +24,7 @@
         <tbody>
             {{ range . }}
                 <tr>
+                    <td>{{ .TimeStamp}}</td>
                     <td>{{ .Type }}</td>
                     <td>{{ .Description }}</td>
                     <td>{{ .StartTime }}</td>
