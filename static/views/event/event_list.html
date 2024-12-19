@@ -9,6 +9,18 @@
             </svg>
         </button>
     </div>
+    <form id="new-event-form" class="hidden" hx-post="/api/v1/events/create">
+        <p>Type</p>
+        <input type="text" name="type">
+        <p>Description</p>
+        <input type="text" name="description">
+        <p>Start Time</p>
+        <input type="text" name="startTime">
+        <p>End Time</p>
+        <input type="text" name="endTime">
+        <br>
+        <button type="submit">Create Event</button>
+    </form>
     <table id="event-table">
         <thead>
             <tr>
@@ -24,7 +36,7 @@
         <tbody>
             {{ range . }}
                 <tr>
-                    <td>{{ .TimeStamp}}</td>
+                    <td>{{ .TimeStamp }}</td>
                     <td>{{ .Type }}</td>
                     <td>{{ .Description }}</td>
                     <td>{{ .StartTime }}</td>

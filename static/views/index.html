@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="static/css/index.css">
     <link rel="stylesheet" href="static/css/event_table.css">
     <link rel="stylesheet" href="static/css/header.css">
-    <title>Sit Log</title>
+    <title>Sit Log</title> 
 </head>
 <body>
     {{ template "header" . }}
-    <!-- {{ template "create_event_form" . }} -->
     {{ template "event_list" . }}
+    <script src="static/js/event_list.js"></script>
 </body>
 </html>
 {{ end }}

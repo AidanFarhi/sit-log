@@ -63,7 +63,6 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-
 		if r.Method == http.MethodGet {
 			events, _ := eventService.GetEventsForChild(2, 2)
 			err := templates.Templates.ExecuteTemplate(w, "index", events)

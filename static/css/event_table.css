@@ -47,6 +47,19 @@
     height: 24px;
 }
 
+.hidden {
+    display: none;
+}
+
+#new-event-form {
+    display: flex;
+    flex-direction: row;
+}
+
+#new-event-form.hidden {
+    display: none;
+}
+
 #table-container {
     display: flex;
     flex-direction: column;
