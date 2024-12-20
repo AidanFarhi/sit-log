@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/AidanFarhi/sitlog/controller"
+	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/repository"
 	"github.com/AidanFarhi/sitlog/service"
 	_ "github.com/mattn/go-sqlite3"
@@ -40,6 +41,11 @@ func NewTemplates() Templates {
 	}
 }
 
+type PageData struct {
+	IsLoggedIn bool
+	Events     []model.Event
+}
+
 func main() {
 
 	db, err := sql.Open("sqlite3", "sitlog.db")
@@ -53,6 +59,7 @@ func main() {
 
 	templates := NewTemplates()
 	fs := http.FileServer(http.Dir("static"))
+	pageData := PageData{false, []model.Event{}}
 
 	eventRepo := repository.NewSimpleEventRepository(db)
 	eventService := service.NewSimpleEventService(eventRepo)
@@ -66,7 +73,8 @@ func main() {
 		if r.Method == http.MethodGet {
 			// todo: how do we make these values come from the client?
 			events, _ := eventService.GetEventsForChild(2, 2)
-			err := templates.Templates.ExecuteTemplate(w, "index", events)
+			pageData.Events = events
+			err := templates.Templates.ExecuteTemplate(w, "index", pageData)
 			if err != nil {
 				log.Printf("Error executing template: %v", err)
 			}

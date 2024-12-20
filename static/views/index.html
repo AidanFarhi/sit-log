@@ -8,12 +8,17 @@
     <link rel="stylesheet" href="static/css/index.css">
     <link rel="stylesheet" href="static/css/event_table.css">
     <link rel="stylesheet" href="static/css/header.css">
+    <link rel="stylesheet" href="static/css/login_form.css">
     <title>Sit Log</title> 
 </head>
 <body>
     {{ template "header" . }}
-    {{ template "event_list" . }}
-    <script src="static/js/event_list.js"></script>
+    {{ if .IsLoggedIn }}
+        {{ template "event_list" .Events }}
+        <script src="static/js/event_list.js"></script>
+    {{ else }}
+        {{ template "login" . }}
+    {{ end }}
 </body>
 </html>
 {{ end }}
