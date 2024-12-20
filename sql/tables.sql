@@ -1,11 +1,12 @@
-DROP TABLE IF EXISTS adult;
+DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS child;
-DROP TABLE IF EXISTS adult_child_relation;
+DROP TABLE IF EXISTS user_child_relation;
 DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS session;
 
-CREATE TABLE adult (
+CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    username TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL
 );
@@ -15,12 +16,12 @@ CREATE TABLE child (
     name TEXT NOT NULL
 );
 
-CREATE TABLE adult_child_relation (
-    adult_id INTEGER,
+CREATE TABLE user_child_relation (
+    user_id INTEGER,
     child_id INTEGER,
     relationship TEXT NOT NULL,
-    PRIMARY KEY (adult_id, child_id),
-    FOREIGN KEY (adult_id) REFERENCES adult(id),
+    PRIMARY KEY (user_id, child_id),
+    FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (child_id) REFERENCES child(id)
 );
 
@@ -34,4 +35,11 @@ CREATE TABLE event (
     end_time TEXT,
     duration TEXT,
     FOREIGN KEY (child_id) REFERENCES child(id)
+);
+
+CREATE TABLE session (
+    token TEXT PRIMARY KEY,
+    username TEXT NOT NULL,
+    created_at TEXT DEFAULT (DATETIME('now')),
+    FOREIGN KEY (username) REFERENCES user(username)
 );

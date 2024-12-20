@@ -64,6 +64,7 @@ func main() {
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
+			// todo: how do we make these values come from the client?
 			events, _ := eventService.GetEventsForChild(2, 2)
 			err := templates.Templates.ExecuteTemplate(w, "index", events)
 			if err != nil {
