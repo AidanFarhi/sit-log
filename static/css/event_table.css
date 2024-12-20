@@ -2,25 +2,9 @@
     width: 95vw;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
     padding: 10px 15px;
     border-radius: 8px;
-}
-
-#search-bar {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    margin-right: 10px;
-    max-width: 30vw;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-}
-
-#search-bar::placeholder {
-    color: #aaaaaa;
 }
 
 #add-button {
@@ -51,13 +35,170 @@
     display: none;
 }
 
-#new-event-form {
+/* #new-event-form {
     display: flex;
     flex-direction: row;
 }
 
 #new-event-form.hidden {
     display: none;
+} */
+
+/* #new-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+#new-event-form.hidden {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #009879;
+    box-shadow: 0px 0px 4px rgba(0, 152, 121, 0.5);
+}
+
+#new-event-form button {
+    background-color: #009879;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#new-event-form button:hover {
+    background-color: #007c64;
+    transform: scale(1.05);
+}
+
+#new-event-form button:active {
+    background-color: #005f4d;
+}
+
+#new-event-form button:disabled {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+} */
+
+#new-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+#new-event-form.hidden {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #009879;
+    box-shadow: 0px 0px 4px rgba(0, 152, 121, 0.5);
+}
+
+select {
+    appearance: none; /* Remove default dropdown styling */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23009879" height="24" width="24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+    cursor: pointer;
+}
+
+select option {
+    font-size: 14px;
+    color: #333;
+}
+
+select::-ms-expand {
+    display: none; /* Hide the default arrow in IE */
+}
+
+#new-event-form button {
+    background-color: #009879;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#new-event-form button:hover {
+    background-color: #007c64;
+    transform: scale(1.05);
+}
+
+#new-event-form button:active {
+    background-color: #005f4d;
+}
+
+#new-event-form button:disabled {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
 }
 
 #table-container {
@@ -101,3 +242,28 @@
 #event-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
+
+.alert {
+    position: fixed;
+    bottom: -100px; /* Start off-screen just below the bottom */
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #009879; /* Red background */
+    color: white; /* White text */
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: bottom 0.5s ease, opacity 0.5s ease;
+    z-index: 1000;
+  }
+  
+  .alert.visible {
+    bottom: 10%; /* Slide into view */
+    opacity: 1;
+  }
+  
+  .alert.hidden {
+    bottom: -100px; /* Slide out of view */
+    opacity: 0;
+  }

@@ -1,25 +1,41 @@
 {{ block "event_list" . }}
 <div id="table-container">
     <div id="search-add-bar">
-        <input type="text" id="search-bar" placeholder="Search...">
         <button id="add-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
+            <svg id="add-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
                 <circle cx="12" cy="12" r="10" fill="#009879" />
                 <path d="M12 7v10m5-5H7" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
             </svg>
+            <svg id="minus-button-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff">
+                <circle cx="12" cy="12" r="10" fill="#009879" />
+                <path d="M7 12h10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+            </svg>
         </button>
     </div>
-    <form id="new-event-form" class="hidden" hx-post="/api/v1/events/create">
-        <p>Type</p>
-        <input type="text" name="type">
-        <p>Description</p>
-        <input type="text" name="description">
-        <p>Start Time</p>
-        <input type="text" name="startTime">
-        <p>End Time</p>
-        <input type="text" name="endTime">
-        <br>
-        <button type="submit">Create Event</button>
+    <form id="new-event-form" class="hidden" hx-swap="none" hx-post="/api/v1/events/create">
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type" name="type" required>
+                <option value="" disabled selected>Select event type</option>
+                <option value="Nap">Nap</option>
+                <option value="Feeding">Feeding</option>
+                <option value="Diaper Change">Diaper Change</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" placeholder="Enter event description" required>
+        </div>
+        <div class="form-group">
+            <label for="startTime">Start Time</label>
+            <input type="datetime-local" id="startTime" name="startTime" required>
+        </div>
+        <div class="form-group">
+            <label for="endTime">End Time</label>
+            <input type="datetime-local" id="endTime" name="endTime" required>
+        </div>
+        <button id="create-event-button" type="submit">Create Event</button>
     </form>
     <table id="event-table">
         <thead>
@@ -50,5 +66,8 @@
             {{ end }}
         </tbody>
     </table>
+    <div id="alertBox" class="alert hidden">
+        Event added!
+    </div>
 </div>
 {{ end }}
