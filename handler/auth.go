@@ -30,12 +30,10 @@ func generateToken() string {
 func validateSession(db *sql.DB, token string) (string, error) {
 	var username string
 	var createdAt time.Time
-
 	err := db.QueryRow(`SELECT username, created_at FROM sessions WHERE token = ?`, token).Scan(&username, &createdAt)
 	if err != nil {
 		return "", err
 	}
-
 	if time.Since(createdAt) > sessionTimeout {
 		_, err := db.Exec(`DELETE FROM sessions WHERE token = ?`, token)
 		if err != nil {
@@ -43,7 +41,6 @@ func validateSession(db *sql.DB, token string) (string, error) {
 		}
 		return "", fmt.Errorf("session expired")
 	}
-
 	return username, nil
 }
 
