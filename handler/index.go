@@ -8,7 +8,7 @@ import (
 	"github.com/AidanFarhi/sitlog/service"
 )
 
-func Index(pageData model.PageData, templates model.Templates, eventService service.EventService) http.HandlerFunc {
+func IndexHandler(pageData model.PageData, templates model.Templates, eventService service.EventService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			// todo: how do we make these values come from the client?

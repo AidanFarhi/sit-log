@@ -36,7 +36,7 @@ func main() {
 
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	mux.HandleFunc("/", handler.Index(pageData, templates, eventService))
+	mux.HandleFunc("/", handler.IndexHandler(pageData, templates, eventService))
 	mux.HandleFunc("GET /api/v1/events/{childId}/{adultId}", eventController.GetEventsForChild)
 	mux.HandleFunc("POST /api/v1/events/create", eventController.CreateEvent)
 	mux.HandleFunc("POST /login", handler.LoginHandler(db))
