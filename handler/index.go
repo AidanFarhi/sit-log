@@ -10,7 +10,7 @@ import (
 
 func IndexHandler(t model.Templates, es service.EventService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		pageData := model.PageData{}
+		pageData := model.PageData{IsLoggedIn: true, Events: []model.Event{}}
 		if r.Method == http.MethodGet {
 			events, _ := es.GetEventsForChild(2, 2)
 			pageData.Events = events

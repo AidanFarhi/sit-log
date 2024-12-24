@@ -50,33 +50,33 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 			return
 		}
-
 		username := r.FormValue("username")
 		password := r.FormValue("password")
-
 		var storedPassword string
-		err := db.QueryRow(`SELECT password FROM users WHERE username = ?`, username).Scan(&storedPassword)
+		fmt.Println(username, password)
+		err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
 		// if err != nil || storedPassword != hashPassword(password) {
 		// 	http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		// 	return
 		// }
+		fmt.Println("stored password", storedPassword)
 		if err != nil || storedPassword != password {
+			fmt.Println("error validating password")
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 			return
 		}
-
-		token := generateToken()
-		_, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
-		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-
+		// token := generateToken()
+		// _, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
+		// if err != nil {
+		// 	http.Error(w, "Internal server error", http.StatusInternalServerError)
+		// 	return
+		// }
+		fmt.Println("setting cookie")
 		http.SetCookie(w, &http.Cookie{
 			Name:  "session_token",
-			Value: token,
+			Value: "def456sessiontoken",
 			Path:  "/",
 		})
-		fmt.Fprintf(w, "Login successful!")
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }

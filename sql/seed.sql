@@ -56,3 +56,6 @@ INSERT INTO event (child_id, type, description, start_time, end_time, duration) 
 INSERT INTO event (child_id, type, description, start_time, end_time, duration) VALUES (2, 'study', 'English grammar practice', '10:30:00', '11:30:00', '01:00:00');
 INSERT INTO event (child_id, type, description, start_time, end_time, duration) VALUES (3, 'play', 'Running at the playground', '13:00:00', '14:00:00', '01:00:00');
 
+-- Insert valid sessions into the session table
+INSERT INTO session (token, username) VALUES ('abc123sessiontoken', 'Alice');
+INSERT INTO session (token, username) VALUES ('def456sessiontoken', 'Bob');
