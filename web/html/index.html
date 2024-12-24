@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
-    <link rel="stylesheet" href="static/css/index.css">
-    <link rel="stylesheet" href="static/css/event_table.css">
-    <link rel="stylesheet" href="static/css/header.css">
-    <link rel="stylesheet" href="static/css/login_form.css">
+    <link rel="stylesheet" href="web/css/index.css">
+    <link rel="stylesheet" href="web/css/event_table.css">
+    <link rel="stylesheet" href="web/css/header.css">
+    <link rel="stylesheet" href="web/css/login_form.css">
     <title>Sit Log</title> 
 </head>
 <body>
@@ -22,7 +22,7 @@
     </header>
     {{ if .IsLoggedIn }}
         {{ template "event_list" .Events }}
-        <script src="static/js/event_list.js"></script>
+        <script src="web/js/event_list.js"></script>
     {{ else }}
         {{ template "login" . }}
     {{ end }}

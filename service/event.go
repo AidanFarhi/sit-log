@@ -1,43 +1,61 @@
 package service
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
 	"github.com/AidanFarhi/sitlog/model"
-	"github.com/AidanFarhi/sitlog/repository"
 )
 
-type EventService interface {
-	GetEventsForChild(childID int, adultID int) ([]model.Event, error)
-	CreateEvent(newEvent model.NewEvent) error
+type EventService struct {
+	DB *sql.DB
 }
 
-type SimpleEventService struct {
-	Repository repository.EventRepository
-}
-
-func NewSimpleEventService(r repository.EventRepository) SimpleEventService {
-	return SimpleEventService{Repository: r}
-}
-
-func (ses SimpleEventService) GetEventsForChild(childID int, adultID int) ([]model.Event, error) {
-	var events []model.Event
-	events, err := ses.Repository.GetEventsForChild(childID, adultID)
+func (es EventService) GetEventsForChild(childID int, adultID int) ([]model.Event, error) {
+	events := []model.Event{}
+	query := `
+		SELECT e.timestamp, e.type, e.description, e.start_time, e.end_time, e.duration
+		FROM event e
+		JOIN adult_child_relation acr
+		ON e.child_id = acr.child_id
+		WHERE acr.child_id = ? AND acr.adult_id = ?
+	`
+	rows, err := es.DB.Query(query, childID, adultID)
+	defer rows.Close()
 	if err != nil {
 		return events, err
 	}
-	return events, err
+	for rows.Next() {
+		event := model.Event{}
+		err := rows.Scan(
+			&event.TimeStamp, &event.Type, &event.Description,
+			&event.StartTime, &event.EndTime, &event.Duration,
+		)
+		if err != nil {
+			return events, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
 }
 
-func (ses SimpleEventService) CreateEvent(newEvent model.NewEvent) error {
+func (es EventService) CreateEvent(newEvent model.NewEvent) error {
 	duration, err := calculateDuration(newEvent.StartTime, newEvent.EndTime)
-	if err != nil {
-		return err
-	}
 	newEvent.Duration = duration
-	err = ses.Repository.CreateEvent(newEvent)
+	_, err = es.DB.Exec("PRAGMA foreign_keys = ON;")
+	query := `
+		INSERT INTO event(child_id, type, description, start_time, end_time, duration)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`
+	fmt.Println("inserting:", newEvent)
+	_, err = es.DB.Exec(
+		query,
+		newEvent.ChildID, newEvent.Type, newEvent.Description,
+		newEvent.StartTime, newEvent.EndTime, newEvent.Duration,
+	)
 	if err != nil {
+		fmt.Println("error inserting new event:", err.Error())
 		return err
 	}
 	return nil

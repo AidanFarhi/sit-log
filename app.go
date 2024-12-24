@@ -5,10 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/AidanFarhi/sitlog/controller"
 	"github.com/AidanFarhi/sitlog/handler"
 	"github.com/AidanFarhi/sitlog/model"
-	"github.com/AidanFarhi/sitlog/repository"
 	"github.com/AidanFarhi/sitlog/service"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -25,21 +23,13 @@ func main() {
 	}
 
 	templates := model.NewTemplates()
-	fs := http.FileServer(http.Dir("static"))
-	pageData := model.NewPageData()
+	service := service.EventService{DB: db}
 
-	eventRepo := repository.NewSimpleEventRepository(db)
-	eventService := service.NewSimpleEventService(eventRepo)
-	eventController := controller.NewEventController(eventService)
-
+	fs := http.FileServer(http.Dir("web"))
 	mux := http.NewServeMux()
 
-	mux.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	mux.HandleFunc("/", handler.IndexHandler(pageData, templates, eventService))
-	mux.HandleFunc("GET /api/v1/events/{childId}/{adultId}", eventController.GetEventsForChild)
-	mux.HandleFunc("POST /api/v1/events/create", eventController.CreateEvent)
-	mux.HandleFunc("POST /login", handler.LoginHandler(db))
+	mux.Handle("/web/", http.StripPrefix("/web/", fs))
+	mux.HandleFunc("/", handler.IndexHandler(templates, service))
 
 	server := http.Server{
 		Addr:    ":8080",

@@ -66,7 +66,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		token := generateToken()
-		_, err = db.Exec(`INSERT INTO sessions (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
+		_, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
 		if err != nil {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return

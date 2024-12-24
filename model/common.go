@@ -12,17 +12,13 @@ type PageData struct {
 	Events     []Event
 }
 
-func NewPageData() PageData {
-	return PageData{false, []Event{}}
-}
-
 type Templates struct {
 	Templates *template.Template
 }
 
 func NewTemplates() Templates {
 	tmpl := template.New("")
-	err := filepath.Walk("static/views", func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk("web/html", func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

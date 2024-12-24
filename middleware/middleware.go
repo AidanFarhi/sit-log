@@ -3,10 +3,13 @@ package middleware
 import (
 	"database/sql"
 	"net/http"
+
+	"github.com/AidanFarhi/sitlog/model"
 )
 
 type MiddleWare struct {
-	db *sql.DB
+	templates model.Templates
+	db        *sql.DB
 }
 
 func (mw MiddleWare) SessionValidation(next http.Handler) http.Handler {

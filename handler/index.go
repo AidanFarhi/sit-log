@@ -8,13 +8,13 @@ import (
 	"github.com/AidanFarhi/sitlog/service"
 )
 
-func IndexHandler(pageData model.PageData, templates model.Templates, eventService service.EventService) http.HandlerFunc {
+func IndexHandler(t model.Templates, es service.EventService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		pageData := model.PageData{}
 		if r.Method == http.MethodGet {
-			// todo: how do we make these values come from the client?
-			events, _ := eventService.GetEventsForChild(2, 2)
+			events, _ := es.GetEventsForChild(2, 2)
 			pageData.Events = events
-			err := templates.Templates.ExecuteTemplate(w, "index", pageData)
+			err := t.Templates.ExecuteTemplate(w, "index", pageData)
 			if err != nil {
 				log.Printf("Error executing template: %v", err)
 			}
