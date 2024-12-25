@@ -9,6 +9,9 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/AidanFarhi/sitlog/model"
+	"github.com/AidanFarhi/sitlog/service"
 )
 
 const sessionTimeout = 15 * time.Minute
@@ -44,7 +47,13 @@ func validateSession(db *sql.DB, token string) (string, error) {
 	return username, nil
 }
 
-func LoginHandler(db *sql.DB) http.HandlerFunc {
+func IsSessionTokenValid(token string, db *sql.DB) bool {
+	var userID string
+	err := db.QueryRow("SELECT username FROM session WHERE token = ?", token).Scan(&userID)
+	return err == nil
+}
+
+func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -53,15 +62,12 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 		var storedPassword string
-		fmt.Println(username, password)
 		err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
 		// if err != nil || storedPassword != hashPassword(password) {
 		// 	http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		// 	return
 		// }
-		fmt.Println("stored password", storedPassword)
 		if err != nil || storedPassword != password {
-			fmt.Println("error validating password")
 			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 			return
 		}
@@ -71,12 +77,17 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		// 	http.Error(w, "Internal server error", http.StatusInternalServerError)
 		// 	return
 		// }
-		fmt.Println("setting cookie")
 		http.SetCookie(w, &http.Cookie{
 			Name:  "session_token",
 			Value: "def456sessiontoken",
 			Path:  "/",
 		})
-		http.Redirect(w, r, "/", http.StatusFound)
+		pageData := model.PageData{IsLoggedIn: true, Events: []model.Event{}}
+		events, _ := service.GetEventsForChild(db, 2, 2)
+		pageData.Events = events
+		err = t.Templates.ExecuteTemplate(w, "index", pageData)
+		if err != nil {
+			http.Error(w, "error executing template", http.StatusInternalServerError)
+		}
 	}
 }

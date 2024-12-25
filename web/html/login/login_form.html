@@ -1,5 +1,5 @@
 {{ block "login" . }}
-<form id="login-form" hx-swap="none" hx-post="/login">
+<form id="login-form" hx-swap="outerHTML" hx-post="/login">
     <div class="form-group">
         <label for="username">Username</label>
         <input 
