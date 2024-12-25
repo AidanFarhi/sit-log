@@ -6,6 +6,15 @@ const minusButtonIcon = document.getElementById('minus-button-icon')
 const createEventButton = document.getElementById('create-event-button')
 const alertBox = document.getElementById('alertBox')
 
+const showAlert = () => {
+    alertBox.classList.remove('hidden')
+    alertBox.classList.add('visible')
+    setTimeout(() => {
+        alertBox.classList.remove('visible')
+        alertBox.classList.add('hidden')
+    }, 3000)
+}
+
 addEventButton.addEventListener('click', () => {
     newEventForm.classList.toggle('hidden')
     addButtonIcon.classList.toggle('hidden')
@@ -18,12 +27,3 @@ createEventButton.addEventListener('click', () => {
     minusButtonIcon.classList.toggle('hidden')
     showAlert()
 })
-
-function showAlert() {
-    alertBox.classList.remove('hidden')
-    alertBox.classList.add('visible')
-    setTimeout(() => {
-        alertBox.classList.remove('visible')
-        alertBox.classList.add('hidden')
-    }, 3000)
-}
