@@ -12,7 +12,7 @@ func IndexHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			pageData := model.PageData{IsLoggedIn: false, Error: false, Events: []model.Event{}}
-			err := ValidateSession(db, r)
+			err := service.ValidateSession(db, r)
 			if err != nil {
 				t.Templates.ExecuteTemplate(w, "index", pageData)
 				return
