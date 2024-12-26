@@ -63,12 +63,14 @@ func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 		password := r.FormValue("password")
 		var storedPassword string
 		err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
-		// if err != nil || storedPassword != hashPassword(password) {
-		// 	http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-		// 	return
-		// }
 		if err != nil || storedPassword != password {
-			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+			pageData := model.PageData{IsLoggedIn: false, Error: true, Events: []model.Event{}}
+			// w.WriteHeader(http.StatusUnauthorized)
+			err = t.Templates.ExecuteTemplate(w, "index", pageData)
+			if err != nil {
+				http.Error(w, "error executing template", http.StatusInternalServerError)
+				return
+			}
 			return
 		}
 		// token := generateToken()

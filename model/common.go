@@ -9,6 +9,7 @@ import (
 
 type PageData struct {
 	IsLoggedIn bool
+	Error      bool
 	Events     []Event
 }
 
