@@ -44,10 +44,18 @@ func generateToken() (string, error) {
 // 	return username, nil
 // }
 
-func IsSessionTokenValid(token string, db *sql.DB) bool {
+func ValidateSession(db *sql.DB, r *http.Request) error {
 	var userID string
-	err := db.QueryRow("SELECT username FROM session WHERE token = ?", token).Scan(&userID)
-	return err == nil
+	cookie, err := r.Cookie("session_token")
+	if err != nil {
+		return err
+	}
+	token := cookie.Value
+	err = db.QueryRow("SELECT username FROM session WHERE token = ?", token).Scan(&userID)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {

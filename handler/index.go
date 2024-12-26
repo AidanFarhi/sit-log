@@ -12,15 +12,8 @@ func IndexHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			pageData := model.PageData{IsLoggedIn: false, Error: false, Events: []model.Event{}}
-			cookie, err := r.Cookie("session_token")
+			err := ValidateSession(db, r)
 			if err != nil {
-				pageData.IsLoggedIn = false
-				t.Templates.ExecuteTemplate(w, "index", pageData)
-				return
-			}
-			token := cookie.Value
-			if !IsSessionTokenValid(token, db) {
-				pageData.IsLoggedIn = false
 				t.Templates.ExecuteTemplate(w, "index", pageData)
 				return
 			}
