@@ -2,11 +2,8 @@ package handler
 
 import (
 	"crypto/rand"
-	"crypto/sha256"
 	"database/sql"
 	"encoding/base64"
-	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -16,36 +13,36 @@ import (
 
 const sessionTimeout = 15 * time.Minute
 
-func hashPassword(password string) string {
-	hash := sha256.Sum256([]byte(password))
-	return base64.StdEncoding.EncodeToString(hash[:])
-}
+// func hashPassword(password string) string {
+// 	hash := sha256.Sum256([]byte(password))
+// 	return base64.StdEncoding.EncodeToString(hash[:])
+// }
 
-func generateToken() string {
+func generateToken() (string, error) {
 	b := make([]byte, 32)
 	_, err := rand.Read(b)
 	if err != nil {
-		panic(err)
-	}
-	return base64.StdEncoding.EncodeToString(b)
-}
-
-func validateSession(db *sql.DB, token string) (string, error) {
-	var username string
-	var createdAt time.Time
-	err := db.QueryRow(`SELECT username, created_at FROM sessions WHERE token = ?`, token).Scan(&username, &createdAt)
-	if err != nil {
 		return "", err
 	}
-	if time.Since(createdAt) > sessionTimeout {
-		_, err := db.Exec(`DELETE FROM sessions WHERE token = ?`, token)
-		if err != nil {
-			log.Printf("Failed to delete expired session: %v", err)
-		}
-		return "", fmt.Errorf("session expired")
-	}
-	return username, nil
+	return base64.StdEncoding.EncodeToString(b), nil
 }
+
+// func validateSession(db *sql.DB, token string) (string, error) {
+// 	var username string
+// 	var createdAt time.Time
+// 	err := db.QueryRow(`SELECT username, created_at FROM session WHERE token = ?`, token).Scan(&username, &createdAt)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	if time.Since(createdAt) > sessionTimeout {
+// 		_, err := db.Exec(`DELETE FROM sessions WHERE token = ?`, token)
+// 		if err != nil {
+// 			log.Printf("Failed to delete expired session: %v", err)
+// 		}
+// 		return "", fmt.Errorf("session expired")
+// 	}
+// 	return username, nil
+// }
 
 func IsSessionTokenValid(token string, db *sql.DB) bool {
 	var userID string
@@ -56,7 +53,7 @@ func IsSessionTokenValid(token string, db *sql.DB) bool {
 func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
-			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
 		username := r.FormValue("username")
@@ -65,7 +62,6 @@ func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 		err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
 		if err != nil || storedPassword != password {
 			pageData := model.PageData{IsLoggedIn: false, Error: true, Events: []model.Event{}}
-			// w.WriteHeader(http.StatusUnauthorized)
 			err = t.Templates.ExecuteTemplate(w, "index", pageData)
 			if err != nil {
 				http.Error(w, "error executing template", http.StatusInternalServerError)
@@ -73,23 +69,32 @@ func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 			}
 			return
 		}
-		// token := generateToken()
-		// _, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
-		// if err != nil {
-		// 	http.Error(w, "Internal server error", http.StatusInternalServerError)
-		// 	return
-		// }
+		token, err := generateToken()
+		if err != nil {
+			http.Error(w, "error generating token", http.StatusInternalServerError)
+			return
+		}
+		_, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
+		if err != nil {
+			http.Error(w, "error generating token", http.StatusInternalServerError)
+			return
+		}
 		http.SetCookie(w, &http.Cookie{
 			Name:  "session_token",
-			Value: "def456sessiontoken",
+			Value: token,
 			Path:  "/",
 		})
-		pageData := model.PageData{IsLoggedIn: true, Events: []model.Event{}}
-		events, _ := service.GetEventsForChild(db, 2, 2)
+		pageData := model.PageData{IsLoggedIn: true, Error: false, Events: []model.Event{}}
+		events, err := service.GetEventsForChild(db, 2, 2)
+		if err != nil {
+			http.Error(w, "error getting events", http.StatusInternalServerError)
+			return
+		}
 		pageData.Events = events
 		err = t.Templates.ExecuteTemplate(w, "index", pageData)
 		if err != nil {
 			http.Error(w, "error executing template", http.StatusInternalServerError)
+			return
 		}
 	}
 }
