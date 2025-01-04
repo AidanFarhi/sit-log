@@ -32,13 +32,41 @@ const sessionTimeout = 15 * time.Minute
 // 	return username, nil
 // }
 
-func GenerateToken() (string, error) {
+func CreateNewSession(db *sql.DB, r *http.Request) (string, error) {
+	token, err := generateToken()
+	if err != nil {
+		return "", err
+	}
+	username := r.FormValue("username")
+	_, err = db.Exec(`DELETE FROM session WHERE username = ?`, username)
+	if err != nil {
+		return "", err
+	}
+	_, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
+
+func generateToken() (string, error) {
 	b := make([]byte, 32)
 	_, err := rand.Read(b)
 	if err != nil {
 		return "", err
 	}
 	return base64.StdEncoding.EncodeToString(b), nil
+}
+
+func ValidateLogin(db *sql.DB, r *http.Request) error {
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+	var storedPassword string
+	err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
+	if err != nil || storedPassword != password {
+		return err
+	}
+	return nil
 }
 
 func ValidateSession(db *sql.DB, r *http.Request) error {

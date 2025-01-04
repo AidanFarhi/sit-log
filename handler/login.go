@@ -3,7 +3,6 @@ package handler
 import (
 	"database/sql"
 	"net/http"
-	"time"
 
 	"github.com/AidanFarhi/sitlog/model"
 	"github.com/AidanFarhi/sitlog/service"
@@ -15,27 +14,15 @@ func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		username := r.FormValue("username")
-		password := r.FormValue("password")
-		var storedPassword string
-		err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
-		if err != nil || storedPassword != password {
+		err := service.ValidateLogin(db, r)
+		if err != nil {
 			pageData := model.PageData{IsLoggedIn: false, Error: true, Events: []model.Event{}}
-			err = t.Templates.ExecuteTemplate(w, "index", pageData)
-			if err != nil {
-				http.Error(w, "error executing template", http.StatusInternalServerError)
-				return
-			}
+			t.Templates.ExecuteTemplate(w, "index", pageData)
 			return
 		}
-		token, err := service.GenerateToken()
+		token, err := service.CreateNewSession(db, r)
 		if err != nil {
-			http.Error(w, "error generating token", http.StatusInternalServerError)
-			return
-		}
-		_, err = db.Exec(`INSERT INTO session (token, username, created_at) VALUES (?, ?, ?)`, token, username, time.Now())
-		if err != nil {
-			http.Error(w, "error generating token", http.StatusInternalServerError)
+			http.Error(w, "error creating session", http.StatusInternalServerError)
 			return
 		}
 		http.SetCookie(w, &http.Cookie{
@@ -50,10 +37,6 @@ func LoginHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 			return
 		}
 		pageData.Events = events
-		err = t.Templates.ExecuteTemplate(w, "index", pageData)
-		if err != nil {
-			http.Error(w, "error executing template", http.StatusInternalServerError)
-			return
-		}
+		t.Templates.ExecuteTemplate(w, "index", pageData)
 	}
 }
