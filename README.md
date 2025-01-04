@@ -1,6 +1,6 @@
 TODO
 
-- Refactor LoginHandler. Move DB querying logic to auth.go
+- ~~Refactor LoginHandler. Move DB querying logic to auth.go~~
 - Add event feature
 - Edit event feature
 - Delete event feature
