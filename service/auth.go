@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"database/sql"
 	"encoding/base64"
+	"errors"
 	"net/http"
 	"time"
 )
@@ -64,7 +65,7 @@ func ValidateLogin(db *sql.DB, r *http.Request) error {
 	var storedPassword string
 	err := db.QueryRow(`SELECT password FROM user WHERE username = ?`, username).Scan(&storedPassword)
 	if err != nil || storedPassword != password {
-		return err
+		return errors.New("error validating password")
 	}
 	return nil
 }

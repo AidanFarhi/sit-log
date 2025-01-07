@@ -1,7 +1,8 @@
 TODO
 
 - ~~Refactor LoginHandler. Move DB querying logic to auth.go~~
-- Add event feature
+- ~~Add event feature~~
+- Fix add event button after adding event
 - Edit event feature
 - Delete event feature
 - Who is logged in? Fetch events based on that
