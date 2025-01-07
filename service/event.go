@@ -2,6 +2,8 @@ package service
 
 import (
 	"database/sql"
+	"fmt"
+	"net/http"
 
 	"github.com/AidanFarhi/sitlog/model"
 )
@@ -34,26 +36,33 @@ func GetEventsForChild(db *sql.DB, childID int, adultID int) ([]model.Event, err
 	return events, nil
 }
 
-// func (es EventService) CreateEvent(newEvent model.NewEvent) error {
-// 	duration, err := calculateDuration(newEvent.StartTime, newEvent.EndTime)
-// 	newEvent.Duration = duration
-// 	_, err = es.DB.Exec("PRAGMA foreign_keys = ON;")
-// 	query := `
-// 		INSERT INTO event(child_id, type, description, start_time, end_time, duration)
-// 		VALUES (?, ?, ?, ?, ?, ?)
-// 	`
-// 	fmt.Println("inserting:", newEvent)
-// 	_, err = es.DB.Exec(
-// 		query,
-// 		newEvent.ChildID, newEvent.Type, newEvent.Description,
-// 		newEvent.StartTime, newEvent.EndTime, newEvent.Duration,
-// 	)
-// 	if err != nil {
-// 		fmt.Println("error inserting new event:", err.Error())
-// 		return err
-// 	}
-// 	return nil
-// }
+func CreateEvent(db *sql.DB, r *http.Request) error {
+	// TODO: actually add this
+	// duration, err := calculateDuration(newEvent.StartTime, newEvent.EndTime)
+	// newEvent.Duration = duration
+
+	// this is so SQLite actually uses foreign keys
+	_, err := db.Exec("PRAGMA foreign_keys = ON;")
+	childID, err := GetChildID(db, r.FormValue("child_name"))
+	if err != nil {
+		fmt.Println("error getting childId")
+		return err
+	}
+	query := `
+		INSERT INTO event(child_id, type, description, start_time, end_time, duration)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`
+	_, err = db.Exec(
+		query,
+		childID, r.FormValue("type"), r.FormValue("description"),
+		r.FormValue("start_time"), r.FormValue("end_time"), "0",
+	)
+	if err != nil {
+		fmt.Println("error inserting new event into table")
+		return err
+	}
+	return nil
+}
 
 // func calculateDuration(startTime string, endTime string) (string, error) {
 // 	layout := "15:04:05"

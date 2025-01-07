@@ -12,7 +12,19 @@
             </svg>
         </button>
     </div>
-    <form id="new-event-form" class="hidden" hx-swap="none" hx-post="/api/v1/events/create">
+    <form 
+        id="new-event-form"
+        class="hidden"
+        hx-target="#table-container"
+        hx-swap="outerHTML swap:1s" 
+        hx-post="/create_event">
+        <div class="form-group">
+            <label for="child_name">Child</label>
+            <select id="child_name" name="child_name" required>
+                <option value="" disabled selected>Select event type</option>
+                <option value="Daisy">Daisy</option>
+            </select>
+        </div>
         <div class="form-group">
             <label for="type">Type</label>
             <select id="type" name="type" required>
@@ -28,12 +40,12 @@
             <input type="text" id="description" name="description" placeholder="Enter event description" required>
         </div>
         <div class="form-group">
-            <label for="startTime">Start Time</label>
-            <input type="datetime-local" id="startTime" name="startTime" required>
+            <label for="start_time">Start Time</label>
+            <input type="datetime-local" id="start_time" name="start_time" required>
         </div>
         <div class="form-group">
-            <label for="endTime">End Time</label>
-            <input type="datetime-local" id="endTime" name="endTime" required>
+            <label for="end_time">End Time</label>
+            <input type="datetime-local" id="end_time" name="end_time" required>
         </div>
         <button id="create-event-button" type="submit">Create Event</button>
     </form>

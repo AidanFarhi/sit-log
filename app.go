@@ -27,6 +27,7 @@ func main() {
 
 	mux.HandleFunc("/", handler.IndexHandler(db, templates))
 	mux.HandleFunc("/login", handler.LoginHandler(db, templates))
+	mux.HandleFunc("/create_event", handler.CreateEventHandler(db, templates))
 
 	server := http.Server{
 		Addr:    ":8080",
