@@ -181,12 +181,24 @@ select::-ms-expand {
     z-index: 1000;
   }
   
-  .alert.visible {
+.alert.visible {
     bottom: 10%; /* Slide into view */
     opacity: 1;
-  }
-  
-  .alert.hidden {
+}
+
+.alert.hidden {
     bottom: -100px; /* Slide out of view */
     opacity: 0;
-  }
+}
+
+.delete-btn, .edit-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+}

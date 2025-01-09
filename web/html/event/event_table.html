@@ -21,8 +21,33 @@
                 <td>{{ .EndTime }}</td>
                 <td>{{ .Duration }}</td>
                 <td>
-                    <button class="edit-btn"></button>
-                    <button class="delete-btn"></button>
+                    <button class="edit-btn">
+                        <svg 
+                            class="icon" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="24" 
+                            height="24" 
+                            viewBox="0 0 24 24" 
+                            fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#3254a8"></circle>
+                            <path d="M14.5 8.5L8.5 14.5L8 17L10.5 16.5L16.5 10.5L14.5 8.5Z" stroke="white" stroke-width="2" fill="none"></path>
+                            <line x1="13.5" y1="7.5" x2="16.5" y2="10.5" stroke="white" stroke-width="2"></line>
+                        </svg>
+                    </button>
+                    
+                    <button class="delete-btn">
+                        <svg 
+                            class="icon" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="24" 
+                            height="24" 
+                            viewBox="0 0 24 24" 
+                            fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#d93d3d"></circle>
+                            <line x1="8" y1="12" x2="16" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+                    </button>
+                    
                 </td>
             </tr>
         {{ end }}
