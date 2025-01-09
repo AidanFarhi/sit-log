@@ -1,0 +1,31 @@
+{{ block "event_table" . }}
+<table id="event-table">
+    <thead>
+        <tr>
+            <th>timestamp</th>
+            <th>event</th>
+            <th>description</th>
+            <th>start time</th>
+            <th>end time</th>
+            <th>duration</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ range . }}
+            <tr>
+                <td>{{ .TimeStamp }}</td>
+                <td>{{ .Type }}</td>
+                <td>{{ .Description }}</td>
+                <td>{{ .StartTime }}</td>
+                <td>{{ .EndTime }}</td>
+                <td>{{ .Duration }}</td>
+                <td>
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </td>
+            </tr>
+        {{ end }}
+    </tbody>
+</table>
+{{ end }}

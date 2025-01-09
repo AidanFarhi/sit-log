@@ -15,7 +15,7 @@
     <form 
         id="new-event-form"
         class="hidden"
-        hx-target="#table-container"
+        hx-target="#event-table"
         hx-swap="outerHTML swap:2s" 
         hx-post="/create_event">
         <div class="form-group">
@@ -49,35 +49,7 @@
         </div>
         <button id="create-event-button" type="submit">Create Event</button>
     </form>
-    <table id="event-table">
-        <thead>
-            <tr>
-                <th>timestamp</th>
-                <th>event</th>
-                <th>description</th>
-                <th>start time</th>
-                <th>end time</th>
-                <th>duration</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{ range . }}
-                <tr>
-                    <td>{{ .TimeStamp }}</td>
-                    <td>{{ .Type }}</td>
-                    <td>{{ .Description }}</td>
-                    <td>{{ .StartTime }}</td>
-                    <td>{{ .EndTime }}</td>
-                    <td>{{ .Duration }}</td>
-                    <td>
-                        <button class="edit-btn"></button>
-                        <button class="delete-btn"></button>
-                    </td>
-                </tr>
-            {{ end }}
-        </tbody>
-    </table>
+    {{ template "event_table" . }}
     <div id="alertBox" class="alert hidden">
         Event added!
     </div>

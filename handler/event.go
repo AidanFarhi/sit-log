@@ -24,6 +24,6 @@ func CreateEventHandler(db *sql.DB, t model.Templates) http.HandlerFunc {
 			http.Error(w, "error getting events", http.StatusInternalServerError)
 			return
 		}
-		t.Templates.ExecuteTemplate(w, "event_list", events)
+		t.Templates.ExecuteTemplate(w, "event_table", events)
 	}
 }
